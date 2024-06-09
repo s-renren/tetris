@@ -7,3 +7,21 @@
   min-height: 100vh;
   padding: 0 0.5rem;
 }
+
+.backBoard {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  height: 600px;
+  background-color: aliceblue;
+}
+
+.cell {
+  width: 30px;
+  height: 30px;
+  background-color: #312b3a;
+  border-top: solid 3px #413a4a;
+  border-left: solid 3px #413a4a;
+}
