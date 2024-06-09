@@ -15,7 +15,7 @@
   justify-content: center;
   width: 300px;
   height: 600px;
-  background-color: aliceblue;
+  background-color: black;
 }
 
 .cell {
@@ -24,4 +24,12 @@
   background-color: #312b3a;
   border-top: solid 3px #413a4a;
   border-left: solid 3px #413a4a;
+}
+
+.iStyle {
+  width: 30px;
+  height: 30px;
+  background: linear-gradient(skyblue, #0078d3 150%);
+  border-top: solid 3px #9bc7e9aa;
+  border-left: solid 3px #0069b99d;
 }

@@ -8,7 +8,7 @@ const Home = () => {
     <div className={styles.container}>
       <div className={styles.backBoard}>
         {board.map((row, y) =>
-          row.map((number, x) => <div className={styles.cell} key={`${x}-${y}`} />),
+          row.map((number, x) => <div className={number === 0 ? styles.cell : number === 1 ? styles.iStyle : ''} key={`${x}-${y}`} />),
         )}
       </div>
     </div>
