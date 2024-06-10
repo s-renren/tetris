@@ -82,3 +82,79 @@
   background: linear-gradient(#d9f6d6, #58d035 20% 80%, #cefb9e);
   border: inset 5px #70ff45;
 }
+
+.zMino {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background-color: #851d2c;
+}
+
+.zMino::after {
+  position: absolute;
+  width: 19px;
+  height: 19px;
+  content: '';
+  background: linear-gradient(#f9cbce, #aa1619 20% 80%, #fe7f92);
+  border: inset 5px #fa3f42bd;
+}
+
+.jMino {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background-color: #010a8c;
+}
+
+.jMino::after {
+  position: absolute;
+  width: 19px;
+  height: 19px;
+  content: '';
+  background: linear-gradient(#daf0ff, #0130b5 20% 80%, #9bdef8);
+  border: inset 5px #134be6c7;
+}
+
+.lMino {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background-color: #620f06;
+}
+
+.lMino::after {
+  position: absolute;
+  width: 19px;
+  height: 19px;
+  content: '';
+  background: linear-gradient(#ffe9da, #db590c 20% 80%, #ffe6cc);
+  border: inset 5px #ff7626d1;
+}
+
+.tMino {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background-color: #4f0a85;
+}
+
+.tMino::after {
+  position: absolute;
+  width: 19px;
+  height: 19px;
+  content: '';
+  background: linear-gradient(#f4deff, #7500bb 20% 80%, #eecffc);
+  border: inset 5px #a200ffc3;
+}

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styles from './index.module.css';
 
 const Home = () => {
-  const [board, setBoard] = useState([...Array(20)].map(() => [...Array(10)].map(() => 3)));
+  const [board, setBoard] = useState([...Array(20)].map(() => [...Array(10)].map(() => 7)));
 
   return (
     <div className={styles.container}>
@@ -19,7 +19,13 @@ const Home = () => {
                       ? styles.oMino
                       : number === 3
                         ? styles.sMino
-                        : ''
+                        : number === 4
+                          ? styles.zMino
+                          : number === 5
+                            ? styles.jMino
+                            : number === 6
+                            ? styles.lMino
+                            : styles.tMino
               }
               key={`${x}-${y}`}
             />
