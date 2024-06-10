@@ -26,10 +26,59 @@
   border-left: solid 3px #413a4a;
 }
 
-.iStyle {
+.iMino {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 30px;
   height: 30px;
-  background: linear-gradient(skyblue, #0078d3 150%);
-  border-top: solid 3px #9bc7e9aa;
-  border-left: solid 3px #0069b99d;
+  background-color: #0d3c4b;
+}
+
+.iMino::before {
+  position: absolute;
+  width: 19px;
+  height: 19px;
+  content: '';
+  background: linear-gradient(#d1fdfc, #49c8eb 20% 80%, #d1fdfc);
+  border: inset 5px #95f3fec3;
+}
+
+.oMino {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background-color: #692f03;
+}
+
+.oMino::before {
+  position: absolute;
+  width: 19px;
+  height: 19px;
+  content: '';
+  background: linear-gradient(#fef7e3, #f7c339 20% 80%, #fee591);
+  border: inset 5px #ffc94c;
+}
+
+.sMino {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background-color: #1b4621;
+}
+
+.sMino::before {
+  position: absolute;
+  width: 19px;
+  height: 19px;
+  content: '';
+  background: linear-gradient(#d9f6d6, #58d035 20% 80%, #cefb9e);
+  border: inset 5px #70ff45;
 }
