@@ -1,11 +1,17 @@
 .container {
   display: flex;
-  flex-direction: column;
+  flex-direction: center;
   align-items: center;
   justify-content: center;
   height: 100vh;
   min-height: 100vh;
   padding: 0 0.5rem;
+}
+
+.bace {
+  display: flex;
+  width: 500px;
+  height: 600px;
 }
 
 .backBoard {
@@ -15,7 +21,25 @@
   justify-content: center;
   width: 300px;
   height: 600px;
-  background-color: black;
+  vertical-align: top;
+}
+
+.holdArea {
+  display: inline-block;
+  width: 90px;
+  height: 90px;
+  margin-right: 5px;
+  vertical-align: top;
+  background-color: #312b3a;
+}
+
+.nextArea {
+  display: inline-block;
+  width: 90px;
+  height: 90px;
+  margin-left: 5px;
+  vertical-align: top;
+  background-color: #312b3a;
 }
 
 .cell {
