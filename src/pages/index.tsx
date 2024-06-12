@@ -1,9 +1,8 @@
-import { useState } from 'react';
+import { useGame } from '../hooks/useGame';
 import styles from './index.module.css';
 
 const Home = () => {
-  const [board, setBoard] = useState([...Array(20)].map(() => [...Array(10)].map(() => 0)));
-
+  const { board, setBoard } = useGame();
   return (
     <div className={styles.container}>
       <div className={styles.bace}>
