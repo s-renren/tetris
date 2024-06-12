@@ -1,3 +1,4 @@
+import { BackBoard } from '../components/backBoard/backBoard';
 import { useGame } from '../hooks/useGame';
 import styles from './index.module.css';
 
@@ -10,32 +11,7 @@ const Home = () => {
           <p>Hold</p>
           <div className={styles.hold} />
         </div>
-        <div className={styles.backBoard}>
-          {board.map((row, y) =>
-            row.map((number, x) => (
-              <div
-                className={
-                  number === 0
-                    ? styles.cell
-                    : number === 1
-                      ? styles.iMino
-                      : number === 2
-                        ? styles.oMino
-                        : number === 3
-                          ? styles.sMino
-                          : number === 4
-                            ? styles.zMino
-                            : number === 5
-                              ? styles.jMino
-                              : number === 6
-                                ? styles.lMino
-                                : styles.tMino
-                }
-                key={`${x}-${y}`}
-              />
-            )),
-          )}
-        </div>
+        <BackBoard board={board} />
         <div className={styles.nextArea}>
           <p>Next</p>
           <div className={styles.next} />
