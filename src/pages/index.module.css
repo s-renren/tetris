@@ -26,19 +26,42 @@
 
 .holdArea {
   display: inline-block;
+  align-items: end;
+  justify-content: center;
   width: 90px;
-  height: 90px;
+  height: 120px;
   margin-right: 5px;
   vertical-align: top;
+}
+
+.holdArea p {
+  margin: 0;
+}
+
+.hold {
+  display: flex;
+  width: 90px;
+  height: 90px;
   background-color: #312b3a;
 }
 
 .nextArea {
   display: inline-block;
   width: 90px;
-  height: 90px;
+  height: 300px;
   margin-left: 5px;
   vertical-align: top;
+}
+
+.nextArea p {
+  margin: 0;
+}
+
+.next {
+  display: flex;
+  width: 90px;
+  height: 90px;
+  margin-bottom: 5px;
   background-color: #312b3a;
 }
 

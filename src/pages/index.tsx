@@ -7,7 +7,10 @@ const Home = () => {
   return (
     <div className={styles.container}>
       <div className={styles.bace}>
-        <div className={styles.holdArea}>hold</div>
+        <div className={styles.holdArea}>
+          <p>Hold</p>
+          <div className={styles.hold} />
+        </div>
         <div className={styles.backBoard}>
           {board.map((row, y) =>
             row.map((number, x) => (
@@ -34,7 +37,12 @@ const Home = () => {
             )),
           )}
         </div>
-        <div className={styles.nextArea} />
+        <div className={styles.nextArea}>
+          <p>Next</p>
+          <div className={styles.next} />
+          <div className={styles.next} />
+          <div className={styles.next} />
+        </div>
       </div>
     </div>
   );
