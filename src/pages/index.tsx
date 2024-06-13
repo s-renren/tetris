@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './index.module.css';
 
 const Home = () => {
@@ -7,7 +7,32 @@ const Home = () => {
   const [next2, setNext2] = useState(0);
   const [next3, setNext3] = useState(0);
   const isStart = next1 !== 0;
+  const changeI = [
+    { rowIndex: 0, colIndex: 4, newvalue: 1 },
+    { rowIndex: 1, colIndex: 4, newvalue: 1 },
+    { rowIndex: 2, colIndex: 4, newvalue: 1 },
+    { rowIndex: 3, colIndex: 4, newvalue: 1 },
+  ];
   console.log(isStart);
+  const setBlock = (num: number) => {
+    const newBoard = structuredClone(board);
+    if (num === 1) {
+      changeI.forEach((change) => {
+        newBoard[change.rowIndex][change.colIndex] = change.newvalue;
+      });
+    }
+    setBoard(newBoard);
+  };
+
+  useEffect(() => {
+    if (!isStart) {
+      return;
+    } else {
+      if (next1 === 1) {
+        setBlock(1);
+      }
+    }
+  });
 
   const clickReStart = () => {
     setNext1(Math.floor(Math.random() * 7) + 1);
