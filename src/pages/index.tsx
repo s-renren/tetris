@@ -80,7 +80,8 @@ const Home = () => {
     setNext2(Math.floor(Math.random() * 7) + 1);
     setNext3(Math.floor(Math.random() * 7) + 1);
     setBoard([...Array(20)].map(() => [...Array(10)].map(() => 0)));
-    setBlock(7)
+    setBlock(Math.floor(Math.random() * 7) + 1);
+    console.log(next1, next2, next3, isStart);
   };
 
   // stateで管理するもの [board, Hold, next1.2.3, ]
