@@ -1,11 +1,23 @@
 .container {
   display: flex;
-  flex-direction: center;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   height: 100vh;
   min-height: 100vh;
   padding: 0 0.5rem;
+}
+
+.button {
+  display: flex;
+  align-items: top;
+  justify-content: center;
+  width: 100%;
+  margin-top: -80px;
+}
+
+.button button {
+  margin-left: 10px;
 }
 
 .bace {
