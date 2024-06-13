@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './index.module.css';
 
 const Home = () => {
@@ -13,32 +13,74 @@ const Home = () => {
     { rowIndex: 2, colIndex: 4, newvalue: 1 },
     { rowIndex: 3, colIndex: 4, newvalue: 1 },
   ];
-  console.log(isStart);
+  const changeO = [
+    { rowIndex: 0, colIndex: 4, newvalue: 2 },
+    { rowIndex: 0, colIndex: 5, newvalue: 2 },
+    { rowIndex: 1, colIndex: 4, newvalue: 2 },
+    { rowIndex: 1, colIndex: 5, newvalue: 2 },
+  ];
+  const changeS = [
+    { rowIndex: 0, colIndex: 4, newvalue: 3 },
+    { rowIndex: 0, colIndex: 5, newvalue: 3 },
+    { rowIndex: 1, colIndex: 3, newvalue: 3 },
+    { rowIndex: 1, colIndex: 4, newvalue: 3 },
+  ];
+  const changeZ = [
+    { rowIndex: 0, colIndex: 4, newvalue: 4 },
+    { rowIndex: 0, colIndex: 5, newvalue: 4 },
+    { rowIndex: 1, colIndex: 5, newvalue: 4 },
+    { rowIndex: 1, colIndex: 6, newvalue: 4 },
+  ];
+  const changeJ = [
+    { rowIndex: 0, colIndex: 3, newvalue: 5 },
+    { rowIndex: 1, colIndex: 3, newvalue: 5 },
+    { rowIndex: 1, colIndex: 4, newvalue: 5 },
+    { rowIndex: 1, colIndex: 5, newvalue: 5 },
+  ];
+  const changeL = [
+    { rowIndex: 0, colIndex: 5, newvalue: 6 },
+    { rowIndex: 1, colIndex: 3, newvalue: 6 },
+    { rowIndex: 1, colIndex: 4, newvalue: 6 },
+    { rowIndex: 1, colIndex: 5, newvalue: 6 },
+  ];
+  const changeT = [
+    { rowIndex: 0, colIndex: 4, newvalue: 7 },
+    { rowIndex: 1, colIndex: 3, newvalue: 7 },
+    { rowIndex: 1, colIndex: 4, newvalue: 7 },
+    { rowIndex: 1, colIndex: 5, newvalue: 7 },
+  ];
+  const changeMap: { [key: string]: { rowIndex: number; colIndex: number; newvalue: number }[] } = {
+    '1': changeI,
+    '2': changeO,
+    '3': changeS,
+    '4': changeZ,
+    '5': changeJ,
+    '6': changeL,
+    '7': changeT,
+  };
   const setBlock = (num: number) => {
     const newBoard = structuredClone(board);
-    if (num === 1) {
-      changeI.forEach((change) => {
-        newBoard[change.rowIndex][change.colIndex] = change.newvalue;
-      });
-    }
+    const changes = changeMap[num.toString()];
+
+    changes.forEach((change) => {
+      newBoard[change.rowIndex][change.colIndex] = change.newvalue;
+    });
     setBoard(newBoard);
   };
 
-  useEffect(() => {
-    if (!isStart) {
-      return;
-    } else {
-      if (next1 === 1) {
-        setBlock(1);
-      }
-    }
-  });
+  // useEffect(() => {
+  //   if (!isStart) {
+  //     return;
+  //   } else {
+  //   }
+  // });
 
   const clickReStart = () => {
     setNext1(Math.floor(Math.random() * 7) + 1);
     setNext2(Math.floor(Math.random() * 7) + 1);
     setNext3(Math.floor(Math.random() * 7) + 1);
     setBoard([...Array(20)].map(() => [...Array(10)].map(() => 0)));
+    setBlock(7)
   };
 
   // stateで管理するもの [board, Hold, next1.2.3, ]
