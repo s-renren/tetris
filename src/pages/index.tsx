@@ -6,6 +6,7 @@ const Home = () => {
   const [next1, setNext1] = useState(0);
   const [next2, setNext2] = useState(0);
   const [next3, setNext3] = useState(0);
+  const resetBoard = [...Array(20)].map(() => [...Array(10)].map(() => 0));
   const isStart = next1 !== 0;
   const changeI = [
     { rowIndex: 0, colIndex: 4, newvalue: 1 },
@@ -58,8 +59,7 @@ const Home = () => {
     '6': changeL,
     '7': changeT,
   };
-  const setBlock = (num: number) => {
-    const newBoard = structuredClone(board);
+  const setBlock = (num: number, newBoard: number[][]) => {
     const changes = changeMap[num.toString()];
 
     changes.forEach((change) => {
@@ -80,7 +80,7 @@ const Home = () => {
     setNext2(Math.floor(Math.random() * 7) + 1);
     setNext3(Math.floor(Math.random() * 7) + 1);
     setBoard([...Array(20)].map(() => [...Array(10)].map(() => 0)));
-    setBlock(Math.floor(Math.random() * 7) + 1);
+    setBlock(Math.floor(Math.random() * 7) + 1, resetBoard);
     console.log(next1, next2, next3, isStart);
   };
 
