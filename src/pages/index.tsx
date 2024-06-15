@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './index.module.css';
 
 const Home = () => {
   const [board, setBoard] = useState([...Array(20)].map(() => [...Array(10)].map(() => 0)));
+  const [nowBlock, setNowBlock] = useState(0);
   const [next1, setNext1] = useState(0);
   const [next2, setNext2] = useState(0);
   const [next3, setNext3] = useState(0);
@@ -59,7 +60,7 @@ const Home = () => {
     '6': changeL,
     '7': changeT,
   };
-  const setBlock = (num: number, newBoard: number[][]) => {
+  const firstBlock = (num: number, newBoard: number[][]) => {
     const changes = changeMap[num.toString()];
 
     changes.forEach((change) => {
@@ -68,19 +69,31 @@ const Home = () => {
     setBoard(newBoard);
   };
 
+  // 落とすやつのy座標を1下げる
+  // const dropMino = () => {
+  //   const nowBlockN = structuredClone(nowBlock)
+  //   const newBoard = structuredClone(board)
+  //   const canDrop = newBoard.filter((row, y) => row.filter((num, x) => {num === nowBlockN && (newBoard[y+1]?.[x] === 0 || newBoard[y+1]?.[x] === nowBlockN)})).flat().length
+  //   if (canDrop === 4){
+
+  //   }
+  // };
+
   // useEffect(() => {
   //   if (!isStart) {
   //     return;
   //   } else {
   //   }
-  // });
+  // }, [isStart]);
 
   const clickReStart = () => {
+    const newBlock = Math.floor(Math.random() * 7) + 1;
     setNext1(Math.floor(Math.random() * 7) + 1);
     setNext2(Math.floor(Math.random() * 7) + 1);
     setNext3(Math.floor(Math.random() * 7) + 1);
     setBoard([...Array(20)].map(() => [...Array(10)].map(() => 0)));
-    setBlock(Math.floor(Math.random() * 7) + 1, resetBoard);
+    firstBlock(newBlock, resetBoard);
+    setNowBlock(newBlock);
     console.log(next1, next2, next3, isStart);
   };
 
@@ -100,19 +113,19 @@ const Home = () => {
                 className={
                   number === 0
                     ? styles.cell
-                    : number === 1
+                    : number === 1 || number === 8
                       ? styles.iMino
-                      : number === 2
+                      : number === 2 || number === 9
                         ? styles.oMino
-                        : number === 3
+                        : number === 3 || number === 10
                           ? styles.sMino
-                          : number === 4
+                          : number === 4 || number === 11
                             ? styles.zMino
-                            : number === 5
+                            : number === 5 || number === 12
                               ? styles.jMino
-                              : number === 6
+                              : number === 6 || number === 13
                                 ? styles.lMino
-                                : number === 7
+                                : number === 7 || number === 14
                                   ? styles.tMino
                                   : ''
                 }
