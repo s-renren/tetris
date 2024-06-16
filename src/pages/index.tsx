@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import styles from './index.module.css';
 
 const Home = () => {
@@ -9,65 +9,104 @@ const Home = () => {
   const [next3, setNext3] = useState(0);
   const resetBoard = [...Array(20)].map(() => [...Array(10)].map(() => 0));
   const isStart = next1 !== 0;
-  const changeI = [
-    { rowIndex: 0, colIndex: 4, newvalue: 1 },
-    { rowIndex: 1, colIndex: 4, newvalue: 1 },
-    { rowIndex: 2, colIndex: 4, newvalue: 1 },
-    { rowIndex: 3, colIndex: 4, newvalue: 1 },
-  ];
-  const changeO = [
-    { rowIndex: 0, colIndex: 4, newvalue: 2 },
-    { rowIndex: 0, colIndex: 5, newvalue: 2 },
-    { rowIndex: 1, colIndex: 4, newvalue: 2 },
-    { rowIndex: 1, colIndex: 5, newvalue: 2 },
-  ];
-  const changeS = [
-    { rowIndex: 0, colIndex: 4, newvalue: 3 },
-    { rowIndex: 0, colIndex: 5, newvalue: 3 },
-    { rowIndex: 1, colIndex: 3, newvalue: 3 },
-    { rowIndex: 1, colIndex: 4, newvalue: 3 },
-  ];
-  const changeZ = [
-    { rowIndex: 0, colIndex: 4, newvalue: 4 },
-    { rowIndex: 0, colIndex: 5, newvalue: 4 },
-    { rowIndex: 1, colIndex: 5, newvalue: 4 },
-    { rowIndex: 1, colIndex: 6, newvalue: 4 },
-  ];
-  const changeJ = [
-    { rowIndex: 0, colIndex: 3, newvalue: 5 },
-    { rowIndex: 1, colIndex: 3, newvalue: 5 },
-    { rowIndex: 1, colIndex: 4, newvalue: 5 },
-    { rowIndex: 1, colIndex: 5, newvalue: 5 },
-  ];
-  const changeL = [
-    { rowIndex: 0, colIndex: 5, newvalue: 6 },
-    { rowIndex: 1, colIndex: 3, newvalue: 6 },
-    { rowIndex: 1, colIndex: 4, newvalue: 6 },
-    { rowIndex: 1, colIndex: 5, newvalue: 6 },
-  ];
-  const changeT = [
-    { rowIndex: 0, colIndex: 4, newvalue: 7 },
-    { rowIndex: 1, colIndex: 3, newvalue: 7 },
-    { rowIndex: 1, colIndex: 4, newvalue: 7 },
-    { rowIndex: 1, colIndex: 5, newvalue: 7 },
-  ];
-  const changeMap: { [key: string]: { rowIndex: number; colIndex: number; newvalue: number }[] } = {
-    '1': changeI,
-    '2': changeO,
-    '3': changeS,
-    '4': changeZ,
-    '5': changeJ,
-    '6': changeL,
-    '7': changeT,
-  };
-  const firstBlock = (num: number, newBoard: number[][]) => {
-    const changes = changeMap[num.toString()];
+  const changeI = useMemo(
+    () => [
+      { rowIndex: 0, colIndex: 4, newvalue: 1 },
+      { rowIndex: 1, colIndex: 4, newvalue: 1 },
+      { rowIndex: 2, colIndex: 4, newvalue: 1 },
+      { rowIndex: 3, colIndex: 4, newvalue: 1 },
+    ],
+    [],
+  );
 
-    changes.forEach((change) => {
-      newBoard[change.rowIndex][change.colIndex] = change.newvalue;
-    });
-    setBoard(newBoard);
-  };
+  const changeO = useMemo(
+    () => [
+      { rowIndex: 0, colIndex: 4, newvalue: 2 },
+      { rowIndex: 0, colIndex: 5, newvalue: 2 },
+      { rowIndex: 1, colIndex: 4, newvalue: 2 },
+      { rowIndex: 1, colIndex: 5, newvalue: 2 },
+    ],
+    [],
+  );
+
+  const changeS = useMemo(
+    () => [
+      { rowIndex: 0, colIndex: 4, newvalue: 3 },
+      { rowIndex: 0, colIndex: 5, newvalue: 3 },
+      { rowIndex: 1, colIndex: 3, newvalue: 3 },
+      { rowIndex: 1, colIndex: 4, newvalue: 3 },
+    ],
+    [],
+  );
+
+  const changeZ = useMemo(
+    () => [
+      { rowIndex: 0, colIndex: 4, newvalue: 4 },
+      { rowIndex: 0, colIndex: 5, newvalue: 4 },
+      { rowIndex: 1, colIndex: 5, newvalue: 4 },
+      { rowIndex: 1, colIndex: 6, newvalue: 4 },
+    ],
+    [],
+  );
+
+  const changeJ = useMemo(
+    () => [
+      { rowIndex: 0, colIndex: 3, newvalue: 5 },
+      { rowIndex: 1, colIndex: 3, newvalue: 5 },
+      { rowIndex: 1, colIndex: 4, newvalue: 5 },
+      { rowIndex: 1, colIndex: 5, newvalue: 5 },
+    ],
+    [],
+  );
+
+  const changeL = useMemo(
+    () => [
+      { rowIndex: 0, colIndex: 5, newvalue: 6 },
+      { rowIndex: 1, colIndex: 3, newvalue: 6 },
+      { rowIndex: 1, colIndex: 4, newvalue: 6 },
+      { rowIndex: 1, colIndex: 5, newvalue: 6 },
+    ],
+    [],
+  );
+
+  const changeT = useMemo(
+    () => [
+      { rowIndex: 0, colIndex: 4, newvalue: 7 },
+      { rowIndex: 1, colIndex: 3, newvalue: 7 },
+      { rowIndex: 1, colIndex: 4, newvalue: 7 },
+      { rowIndex: 1, colIndex: 5, newvalue: 7 },
+    ],
+    [],
+  );
+
+  interface ChangeMap {
+    [key: string]: { rowIndex: number; colIndex: number; newvalue: number }[];
+  }
+
+  const changeMap: ChangeMap = useMemo(
+    () => ({
+      '1': changeI,
+      '2': changeO,
+      '3': changeS,
+      '4': changeZ,
+      '5': changeJ,
+      '6': changeL,
+      '7': changeT,
+    }),
+    [changeI, changeO, changeS, changeZ, changeJ, changeL, changeT],
+  );
+
+  const appBlock = useCallback(
+    (num: number, newBoard: number[][]) => {
+      const changes = changeMap[num.toString()];
+
+      changes.forEach((change) => {
+        newBoard[change.rowIndex][change.colIndex] = change.newvalue;
+      });
+      setBoard(newBoard);
+    },
+    [changeMap, setBoard],
+  );
 
   // 落とすやつのy座標を1下げる
   const dropMino = useCallback(() => {
@@ -75,7 +114,6 @@ const Home = () => {
     const canDrop = newBoard.every((row, y) =>
       row.every((num, x) => {
         if (num === nowBlockN) {
-          // 下の行が存在し、その位置が空いているか、同じブロックであるかを確認
           return newBoard[y + 1]?.[x] === 0 || newBoard[y + 1]?.[x] === nowBlockN;
         }
         return true;
@@ -92,10 +130,22 @@ const Home = () => {
           }
         }),
       );
+    } else {
+      newBoard.forEach((row, y) =>
+        row.forEach((num, x) => {
+          if (0 < num && num < 8) {
+            newBoard[y][x] = nowBlockN + 7;
+          }
+        }),
+      );
+      appBlock(next1, newBoard);
+      setNowBlockN(next1);
+      setNext1(next2);
+      setNext2(next3);
+      setNext3(Math.floor(Math.random() * 7) + 1);
     }
-    console.log('_');
     setBoard(newBoard);
-  }, [board, nowBlockN]);
+  }, [board, nowBlockN, next1, next2, next3, appBlock]);
 
   useEffect(() => {
     if (!isStart) {
@@ -114,12 +164,9 @@ const Home = () => {
     setNext2(Math.floor(Math.random() * 7) + 1);
     setNext3(Math.floor(Math.random() * 7) + 1);
     setBoard([...Array(20)].map(() => [...Array(10)].map(() => 0)));
-    firstBlock(newBlockN, resetBoard);
+    appBlock(newBlockN, resetBoard);
     setNowBlockN(newBlockN);
-    console.log(next1, next2, next3, isStart);
   };
-
-  // stateで管理するもの [board, Hold, next1.2.3, ]
 
   return (
     <div className={styles.container}>
