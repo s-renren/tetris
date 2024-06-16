@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styles from './index.module.css';
 
 const Home = () => {
   const [board, setBoard] = useState([...Array(20)].map(() => [...Array(10)].map(() => 0)));
-  const [nowBlock, setNowBlock] = useState(0);
+  const [nowBlockN, setNowBlockN] = useState(0);
   const [next1, setNext1] = useState(0);
   const [next2, setNext2] = useState(0);
   const [next3, setNext3] = useState(0);
@@ -70,30 +70,52 @@ const Home = () => {
   };
 
   // 落とすやつのy座標を1下げる
-  // const dropMino = () => {
-  //   const nowBlockN = structuredClone(nowBlock)
-  //   const newBoard = structuredClone(board)
-  //   const canDrop = newBoard.filter((row, y) => row.filter((num, x) => {num === nowBlockN && (newBoard[y+1]?.[x] === 0 || newBoard[y+1]?.[x] === nowBlockN)})).flat().length
-  //   if (canDrop === 4){
+  const dropMino = useCallback(() => {
+    const newBoard = structuredClone(board);
+    const canDrop = newBoard.every((row, y) =>
+      row.every((num, x) => {
+        if (num === nowBlockN) {
+          // 下の行が存在し、その位置が空いているか、同じブロックであるかを確認
+          return newBoard[y + 1]?.[x] === 0 || newBoard[y + 1]?.[x] === nowBlockN;
+        }
+        return true;
+      }),
+    );
+    if (canDrop) {
+      board.forEach((row, y) =>
+        row.forEach((num, x) => {
+          if (num === nowBlockN) {
+            newBoard[y + 1][x] = nowBlockN;
+            if (board[y - 1]?.[x] !== nowBlockN) {
+              newBoard[y][x] = 0;
+            }
+          }
+        }),
+      );
+    }
+    console.log('_');
+    setBoard(newBoard);
+  }, [board, nowBlockN]);
 
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (!isStart) {
-  //     return;
-  //   } else {
-  //   }
-  // }, [isStart]);
+  useEffect(() => {
+    if (!isStart) {
+      return;
+    } else {
+      const interval = setInterval(() => {
+        dropMino();
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [isStart, dropMino]);
 
   const clickReStart = () => {
-    const newBlock = Math.floor(Math.random() * 7) + 1;
+    const newBlockN = Math.floor(Math.random() * 7) + 1;
     setNext1(Math.floor(Math.random() * 7) + 1);
     setNext2(Math.floor(Math.random() * 7) + 1);
     setNext3(Math.floor(Math.random() * 7) + 1);
     setBoard([...Array(20)].map(() => [...Array(10)].map(() => 0)));
-    firstBlock(newBlock, resetBoard);
-    setNowBlock(newBlock);
+    firstBlock(newBlockN, resetBoard);
+    setNowBlockN(newBlockN);
     console.log(next1, next2, next3, isStart);
   };
 
