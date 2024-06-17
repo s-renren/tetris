@@ -120,7 +120,7 @@ const Home = () => {
         row.forEach((num, x) => {
           if (num === nowBlockN) {
             newBoard[y][x + 1] = nowBlockN;
-            if (board[y][x - 1] === 0 || board[y][x - 1] === undefined) {
+            if (board[y][x - 1] !== nowBlockN || board[y][x - 1] === undefined) {
               newBoard[y][x] = 0;
             }
           }
