@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styles from './index.module.css';
 
 const Home = () => {
@@ -9,6 +9,7 @@ const Home = () => {
   const [next3, setNext3] = useState(0);
   const resetBoard = [...Array(20)].map(() => [...Array(10)].map(() => 0));
   const isStart = next1 !== 0;
+  // みのの形
   const changeI = useMemo(
     () => [
       { rowIndex: 0, colIndex: 4, newvalue: 1 },
@@ -79,6 +80,72 @@ const Home = () => {
     [],
   );
 
+  const moveLeft = () => {
+    const newBoard = structuredClone(board);
+    const canMoveLeft = newBoard.every((row, y) =>
+      row.every((num, x) => {
+        if (num === nowBlockN) {
+          return newBoard[y]?.[x - 1] === 0 || newBoard[y]?.[x - 1] === nowBlockN;
+        }
+        return true;
+      }),
+    );
+    if (canMoveLeft) {
+      board.forEach((row, y) => {
+        row.forEach((num, x) => {
+          if (num === nowBlockN) {
+            newBoard[y][x - 1] = nowBlockN;
+            if (newBoard[y][x - 1] === nowBlockN) {
+              newBoard[y][x] = 0;
+            }
+          }
+        });
+      });
+    }
+    setBoard(newBoard);
+  };
+
+  const moveRight = () => {
+    const newBoard = structuredClone(board);
+    const canMoveRight = newBoard.every((row, y) =>
+      row.every((num, x) => {
+        if (num === nowBlockN) {
+          return newBoard[y]?.[x + 1] === 0 || newBoard[y]?.[x + 1] === nowBlockN;
+        }
+        return true;
+      }),
+    );
+    if (canMoveRight) {
+      board.forEach((row, y) => {
+        row.forEach((num, x) => {
+          if (num === nowBlockN) {
+            newBoard[y][x + 1] = nowBlockN;
+            if (board[y][x - 1] === 0 || board[y][x - 1] === undefined) {
+              newBoard[y][x] = 0;
+            }
+          }
+        });
+      });
+    }
+    setBoard(newBoard);
+  };
+
+  const arrowHandler = (event: React.KeyboardEvent) => {
+    event.preventDefault();
+    const key = event.key;
+    switch (key) {
+      case 'ArrowLeft':
+        moveLeft();
+        break;
+      case 'ArrowRight':
+        moveRight();
+        break;
+      case 'ArrowDown':
+        dropMino();
+        break;
+    }
+  };
+
   interface ChangeMap {
     [key: string]: { rowIndex: number; colIndex: number; newvalue: number }[];
   }
@@ -95,7 +162,7 @@ const Home = () => {
     }),
     [changeI, changeO, changeS, changeZ, changeJ, changeL, changeT],
   );
-
+  // ブロックを出現させる
   const appBlock = useCallback(
     (num: number, newBoard: number[][]) => {
       const changes = changeMap[num.toString()];
@@ -108,7 +175,7 @@ const Home = () => {
     [changeMap, setBoard],
   );
 
-  // 落とすやつのy座標を1下げる
+  // ミノを落とす
   const dropMino = useCallback(() => {
     const newBoard = structuredClone(board);
     const canDrop = newBoard.every((row, y) =>
@@ -169,7 +236,7 @@ const Home = () => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onKeyDown={arrowHandler}>
       <div className={styles.bace}>
         <div className={styles.holdArea}>
           <p>Hold</p>
