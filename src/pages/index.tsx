@@ -8,6 +8,7 @@ const Home = () => {
   const [next2, setNext2] = useState(0);
   const [next3, setNext3] = useState(0);
   const resetBoard = [...Array(20)].map(() => [...Array(10)].map(() => 0));
+  const nextHold = [...Array(3)].map(() => [...Array(3)].map(() => 0));
   const isStart = next1 !== 0;
   // みのの形
   const changeI = useMemo(
@@ -80,7 +81,7 @@ const Home = () => {
     [],
   );
 
-  const moveLeft = () => {
+  const moveLeft = useCallback(() => {
     const newBoard = structuredClone(board);
     const canMoveLeft = newBoard.every((row, y) =>
       row.every((num, x) => {
@@ -103,9 +104,9 @@ const Home = () => {
       });
     }
     setBoard(newBoard);
-  };
+  }, [board, nowBlockN, setBoard]);
 
-  const moveRight = () => {
+  const moveRight = useCallback(() => {
     const newBoard = structuredClone(board);
     const canMoveRight = newBoard.every((row, y) =>
       row.every((num, x) => {
@@ -128,23 +129,7 @@ const Home = () => {
       });
     }
     setBoard(newBoard);
-  };
-
-  const arrowHandler = (event: React.KeyboardEvent) => {
-    event.preventDefault();
-    const key = event.key;
-    switch (key) {
-      case 'ArrowLeft':
-        moveLeft();
-        break;
-      case 'ArrowRight':
-        moveRight();
-        break;
-      case 'ArrowDown':
-        dropMino();
-        break;
-    }
-  };
+  }, [board, nowBlockN, setBoard]);
 
   interface ChangeMap {
     [key: string]: { rowIndex: number; colIndex: number; newvalue: number }[];
@@ -215,15 +200,24 @@ const Home = () => {
   }, [board, nowBlockN, next1, next2, next3, appBlock]);
 
   useEffect(() => {
-    if (!isStart) {
-      return;
-    } else {
+    if (isStart) {
       const interval = setInterval(() => {
         dropMino();
       }, 1000);
       return () => clearInterval(interval);
     }
   }, [isStart, dropMino]);
+
+  useEffect(() => {
+    const arrowHandler = (event: KeyboardEvent) => {
+      if (event.key === 'ArrowLeft') moveLeft();
+      if (event.key === 'ArrowRight') moveRight();
+      if (event.key === 'ArrowDown') dropMino();
+    };
+
+    window.addEventListener('keydown', arrowHandler);
+    return () => window.removeEventListener('keydown', arrowHandler);
+  }, [moveLeft, moveRight, dropMino]);
 
   const clickReStart = () => {
     const newBlockN = Math.floor(Math.random() * 7) + 1;
@@ -236,11 +230,14 @@ const Home = () => {
   };
 
   return (
-    <div className={styles.container} onKeyDown={arrowHandler}>
+    <div className={styles.container}>
       <div className={styles.bace}>
         <div className={styles.holdArea}>
           <p>Hold</p>
-          <div className={styles.hold} />
+          <div className={styles.hold}>
+            <div className={styles.cell} />
+            <div className={styles.cell} />
+          </div>
         </div>
         <div className={styles.backBoard}>
           {board.map((row, y) =>
@@ -272,9 +269,15 @@ const Home = () => {
         </div>
         <div className={styles.nextArea}>
           <p>Next</p>
-          <div className={styles.next} />
-          <div className={styles.next} />
-          <div className={styles.next} />
+          <div className={styles.next}>
+            <div className={styles.cell} />
+          </div>
+          <div className={styles.next}>
+            <div className={styles.cell} />
+          </div>
+          <div className={styles.next}>
+            <div className={styles.cell} />
+          </div>
         </div>
       </div>
       <div className={styles.button}>

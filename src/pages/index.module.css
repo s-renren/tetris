@@ -52,6 +52,7 @@
 
 .hold {
   display: flex;
+  flex-wrap: wrap;
   width: 90px;
   height: 90px;
   background-color: #312b3a;
@@ -71,6 +72,7 @@
 
 .next {
   display: flex;
+  flex-wrap: wrap;
   width: 90px;
   height: 90px;
   margin-bottom: 5px;
