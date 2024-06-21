@@ -22,7 +22,7 @@
 
 .bace {
   display: flex;
-  width: 500px;
+  width: 550px;
   height: 600px;
 }
 
@@ -40,7 +40,7 @@
   display: inline-block;
   align-items: end;
   justify-content: center;
-  width: 90px;
+  width: 120px;
   height: 120px;
   margin-right: 5px;
   vertical-align: top;
@@ -53,14 +53,14 @@
 .hold {
   display: flex;
   flex-wrap: wrap;
-  width: 90px;
-  height: 90px;
+  width: 120px;
+  height: 120px;
   background-color: #312b3a;
 }
 
 .nextArea {
   display: inline-block;
-  width: 90px;
+  width: 120px;
   height: 300px;
   margin-left: 5px;
   vertical-align: top;
@@ -73,8 +73,8 @@
 .next {
   display: flex;
   flex-wrap: wrap;
-  width: 90px;
-  height: 90px;
+  width: 120px;
+  height: 120px;
   margin-bottom: 5px;
   background-color: #312b3a;
 }

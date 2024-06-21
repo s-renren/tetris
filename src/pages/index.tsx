@@ -7,8 +7,8 @@ const Home = () => {
   const [next1, setNext1] = useState(0);
   const [next2, setNext2] = useState(0);
   const [next3, setNext3] = useState(0);
+  const [holdN, setHoldN] = useState(0);
   const resetBoard = [...Array(20)].map(() => [...Array(10)].map(() => 0));
-  const nextHold = [...Array(3)].map(() => [...Array(3)].map(() => 0));
   const isStart = next1 !== 0;
   // みのの形
   const changeI = useMemo(
@@ -208,11 +208,25 @@ const Home = () => {
     }
   }, [isStart, dropMino]);
 
+  // const holdBoard = () => {
+  //   const newBoard = structuredClone(board)
+  // }
+
+  // const holdMino = () => {
+  //   if (holdN === 0) {
+  //     setHoldN(nowBlockN)
+  //     setNext1(next2);
+  //     setNext2(next3);
+  //     setNext3(Math.floor(Math.random() * 7) + 1);
+  //   }
+  // }
+
   useEffect(() => {
     const arrowHandler = (event: KeyboardEvent) => {
       if (event.key === 'ArrowLeft') moveLeft();
       if (event.key === 'ArrowRight') moveRight();
       if (event.key === 'ArrowDown') dropMino();
+      // if (event.key === 'L')
     };
 
     window.addEventListener('keydown', arrowHandler);
@@ -229,14 +243,282 @@ const Home = () => {
     setNowBlockN(newBlockN);
   };
 
+  const getHold = () => {
+    if (holdN === 1) {
+      return [
+        [0, 0, 1, 0],
+        [0, 0, 1, 0],
+        [0, 0, 1, 0],
+        [0, 0, 1, 0],
+      ];
+    } else if (holdN === 2) {
+      return [
+        [0, 0, 0, 0],
+        [0, 2, 2, 0],
+        [0, 2, 2, 0],
+        [0, 0, 0, 0],
+      ];
+    } else if (holdN === 3) {
+      return [
+        [0, 0, 0, 0],
+        [0, 3, 3, 0],
+        [3, 3, 0, 0],
+        [0, 0, 0, 0],
+      ];
+    } else if (holdN === 4) {
+      return [
+        [0, 0, 0, 0],
+        [0, 4, 4, 0],
+        [0, 0, 4, 4],
+        [0, 0, 0, 0],
+      ];
+    } else if (holdN === 5) {
+      return [
+        [0, 5, 0, 0],
+        [0, 5, 5, 5],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+      ];
+    } else if (holdN === 6) {
+      return [
+        [0, 0, 6, 0],
+        [6, 6, 6, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+      ];
+    } else if (holdN === 7) {
+      return [
+        [0, 0, 7, 0],
+        [0, 7, 7, 0],
+        [0, 0, 7, 0],
+        [0, 0, 0, 0],
+      ];
+    } else {
+      return [
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+      ];
+    }
+  };
+
+  const getNext1Num = () => {
+    if (next1 === 1) {
+      return [
+        [0, 0, 1, 0],
+        [0, 0, 1, 0],
+        [0, 0, 1, 0],
+        [0, 0, 1, 0],
+      ];
+    } else if (next1 === 2) {
+      return [
+        [0, 0, 0, 0],
+        [0, 2, 2, 0],
+        [0, 2, 2, 0],
+        [0, 0, 0, 0],
+      ];
+    } else if (next1 === 3) {
+      return [
+        [0, 0, 0, 0],
+        [0, 3, 3, 0],
+        [3, 3, 0, 0],
+        [0, 0, 0, 0],
+      ];
+    } else if (next1 === 4) {
+      return [
+        [0, 0, 0, 0],
+        [0, 4, 4, 0],
+        [0, 0, 4, 4],
+        [0, 0, 0, 0],
+      ];
+    } else if (next1 === 5) {
+      return [
+        [0, 5, 0, 0],
+        [0, 5, 5, 5],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+      ];
+    } else if (next1 === 6) {
+      return [
+        [0, 0, 6, 0],
+        [6, 6, 6, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+      ];
+    } else if (next1 === 7) {
+      return [
+        [0, 0, 7, 0],
+        [0, 7, 7, 0],
+        [0, 0, 7, 0],
+        [0, 0, 0, 0],
+      ];
+    } else {
+      return [
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+      ];
+    }
+  };
+
+  const getNext2Num = () => {
+    if (next2 === 1) {
+      return [
+        [0, 0, 1, 0],
+        [0, 0, 1, 0],
+        [0, 0, 1, 0],
+        [0, 0, 1, 0],
+      ];
+    } else if (next2 === 2) {
+      return [
+        [0, 0, 0, 0],
+        [0, 2, 2, 0],
+        [0, 2, 2, 0],
+        [0, 0, 0, 0],
+      ];
+    } else if (next2 === 3) {
+      return [
+        [0, 0, 0, 0],
+        [0, 3, 3, 0],
+        [3, 3, 0, 0],
+        [0, 0, 0, 0],
+      ];
+    } else if (next2 === 4) {
+      return [
+        [0, 0, 0, 0],
+        [0, 4, 4, 0],
+        [0, 0, 4, 4],
+        [0, 0, 0, 0],
+      ];
+    } else if (next2 === 5) {
+      return [
+        [0, 5, 0, 0],
+        [0, 5, 5, 5],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+      ];
+    } else if (next2 === 6) {
+      return [
+        [0, 0, 6, 0],
+        [6, 6, 6, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+      ];
+    } else if (next2 === 7) {
+      return [
+        [0, 0, 7, 0],
+        [0, 7, 7, 0],
+        [0, 0, 7, 0],
+        [0, 0, 0, 0],
+      ];
+    } else {
+      return [
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+      ];
+    }
+  };
+
+  const getNext3Num = () => {
+    if (next3 === 1) {
+      return [
+        [0, 0, 1, 0],
+        [0, 0, 1, 0],
+        [0, 0, 1, 0],
+        [0, 0, 1, 0],
+      ];
+    } else if (next3 === 2) {
+      return [
+        [0, 0, 0, 0],
+        [0, 2, 2, 0],
+        [0, 2, 2, 0],
+        [0, 0, 0, 0],
+      ];
+    } else if (next3 === 3) {
+      return [
+        [0, 0, 0, 0],
+        [0, 3, 3, 0],
+        [3, 3, 0, 0],
+        [0, 0, 0, 0],
+      ];
+    } else if (next3 === 4) {
+      return [
+        [0, 0, 0, 0],
+        [0, 4, 4, 0],
+        [0, 0, 4, 4],
+        [0, 0, 0, 0],
+      ];
+    } else if (next3 === 5) {
+      return [
+        [0, 5, 0, 0],
+        [0, 5, 5, 5],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+      ];
+    } else if (next3 === 6) {
+      return [
+        [0, 0, 6, 0],
+        [6, 6, 6, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+      ];
+    } else if (next3 === 7) {
+      return [
+        [0, 0, 7, 0],
+        [0, 7, 7, 0],
+        [0, 0, 7, 0],
+        [0, 0, 0, 0],
+      ];
+    } else {
+      return [
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+      ];
+    }
+  };
+  const hold = getHold();
+  const next1Num = getNext1Num();
+  const next2Num = getNext2Num();
+  const next3Num = getNext3Num();
+
   return (
     <div className={styles.container}>
       <div className={styles.bace}>
         <div className={styles.holdArea}>
           <p>Hold</p>
           <div className={styles.hold}>
-            <div className={styles.cell} />
-            <div className={styles.cell} />
+            {hold.map((row, y) =>
+              row.map((number, x) => (
+                <div
+                  className={
+                    number === 0
+                      ? styles.cell
+                      : number === 1 || number === 8
+                        ? styles.iMino
+                        : number === 2 || number === 9
+                          ? styles.oMino
+                          : number === 3 || number === 10
+                            ? styles.sMino
+                            : number === 4 || number === 11
+                              ? styles.zMino
+                              : number === 5 || number === 12
+                                ? styles.jMino
+                                : number === 6 || number === 13
+                                  ? styles.lMino
+                                  : number === 7 || number === 14
+                                    ? styles.tMino
+                                    : ''
+                  }
+                  key={`${x}-${y}`}
+                />
+              )),
+            )}
           </div>
         </div>
         <div className={styles.backBoard}>
@@ -270,13 +552,88 @@ const Home = () => {
         <div className={styles.nextArea}>
           <p>Next</p>
           <div className={styles.next}>
-            <div className={styles.cell} />
+            {next1Num.map((row, y) =>
+              row.map((number, x) => (
+                <div
+                  className={
+                    number === 0
+                      ? styles.cell
+                      : number === 1 || number === 8
+                        ? styles.iMino
+                        : number === 2 || number === 9
+                          ? styles.oMino
+                          : number === 3 || number === 10
+                            ? styles.sMino
+                            : number === 4 || number === 11
+                              ? styles.zMino
+                              : number === 5 || number === 12
+                                ? styles.jMino
+                                : number === 6 || number === 13
+                                  ? styles.lMino
+                                  : number === 7 || number === 14
+                                    ? styles.tMino
+                                    : ''
+                  }
+                  key={`${x}-${y}`}
+                />
+              )),
+            )}
           </div>
           <div className={styles.next}>
-            <div className={styles.cell} />
+            {next2Num.map((row, y) =>
+              row.map((number, x) => (
+                <div
+                  className={
+                    number === 0
+                      ? styles.cell
+                      : number === 1 || number === 8
+                        ? styles.iMino
+                        : number === 2 || number === 9
+                          ? styles.oMino
+                          : number === 3 || number === 10
+                            ? styles.sMino
+                            : number === 4 || number === 11
+                              ? styles.zMino
+                              : number === 5 || number === 12
+                                ? styles.jMino
+                                : number === 6 || number === 13
+                                  ? styles.lMino
+                                  : number === 7 || number === 14
+                                    ? styles.tMino
+                                    : ''
+                  }
+                  key={`${x}-${y}`}
+                />
+              )),
+            )}
           </div>
           <div className={styles.next}>
-            <div className={styles.cell} />
+            {next3Num.map((row, y) =>
+              row.map((number, x) => (
+                <div
+                  className={
+                    number === 0
+                      ? styles.cell
+                      : number === 1 || number === 8
+                        ? styles.iMino
+                        : number === 2 || number === 9
+                          ? styles.oMino
+                          : number === 3 || number === 10
+                            ? styles.sMino
+                            : number === 4 || number === 11
+                              ? styles.zMino
+                              : number === 5 || number === 12
+                                ? styles.jMino
+                                : number === 6 || number === 13
+                                  ? styles.lMino
+                                  : number === 7 || number === 14
+                                    ? styles.tMino
+                                    : ''
+                  }
+                  key={`${x}-${y}`}
+                />
+              )),
+            )}
           </div>
         </div>
       </div>
