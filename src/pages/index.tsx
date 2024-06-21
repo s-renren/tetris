@@ -262,50 +262,50 @@ const Home = () => {
     setNowBlockN(newBlockN);
   };
 
-  const getHold = () => {
-    if (holdN === 1) {
+  const getHoldNextArea = (num: number) => {
+    if (num === 1) {
       return [
         [0, 0, 1, 0],
         [0, 0, 1, 0],
         [0, 0, 1, 0],
         [0, 0, 1, 0],
       ];
-    } else if (holdN === 2) {
+    } else if (num === 2) {
       return [
         [0, 0, 0, 0],
         [0, 2, 2, 0],
         [0, 2, 2, 0],
         [0, 0, 0, 0],
       ];
-    } else if (holdN === 3) {
+    } else if (num === 3) {
       return [
         [0, 0, 0, 0],
         [0, 3, 3, 0],
         [3, 3, 0, 0],
         [0, 0, 0, 0],
       ];
-    } else if (holdN === 4) {
+    } else if (num === 4) {
       return [
         [0, 0, 0, 0],
         [0, 4, 4, 0],
         [0, 0, 4, 4],
         [0, 0, 0, 0],
       ];
-    } else if (holdN === 5) {
+    } else if (num === 5) {
       return [
         [0, 0, 0, 0],
         [0, 5, 0, 0],
         [0, 5, 5, 5],
         [0, 0, 0, 0],
       ];
-    } else if (holdN === 6) {
+    } else if (num === 6) {
       return [
         [0, 0, 0, 0],
         [0, 0, 6, 0],
         [6, 6, 6, 0],
         [0, 0, 0, 0],
       ];
-    } else if (holdN === 7) {
+    } else if (num === 7) {
       return [
         [0, 0, 7, 0],
         [0, 7, 7, 0],
@@ -321,190 +321,10 @@ const Home = () => {
       ];
     }
   };
-
-  const getNext1Num = () => {
-    if (next1 === 1) {
-      return [
-        [0, 0, 1, 0],
-        [0, 0, 1, 0],
-        [0, 0, 1, 0],
-        [0, 0, 1, 0],
-      ];
-    } else if (next1 === 2) {
-      return [
-        [0, 0, 0, 0],
-        [0, 2, 2, 0],
-        [0, 2, 2, 0],
-        [0, 0, 0, 0],
-      ];
-    } else if (next1 === 3) {
-      return [
-        [0, 0, 0, 0],
-        [0, 3, 3, 0],
-        [3, 3, 0, 0],
-        [0, 0, 0, 0],
-      ];
-    } else if (next1 === 4) {
-      return [
-        [0, 0, 0, 0],
-        [0, 4, 4, 0],
-        [0, 0, 4, 4],
-        [0, 0, 0, 0],
-      ];
-    } else if (next1 === 5) {
-      return [
-        [0, 0, 0, 0],
-        [0, 5, 0, 0],
-        [0, 5, 5, 5],
-        [0, 0, 0, 0],
-      ];
-    } else if (next1 === 6) {
-      return [
-        [0, 0, 0, 0],
-        [0, 0, 6, 0],
-        [6, 6, 6, 0],
-        [0, 0, 0, 0],
-      ];
-    } else if (next1 === 7) {
-      return [
-        [0, 0, 7, 0],
-        [0, 7, 7, 0],
-        [0, 0, 7, 0],
-        [0, 0, 0, 0],
-      ];
-    } else {
-      return [
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-      ];
-    }
-  };
-
-  const getNext2Num = () => {
-    if (next2 === 1) {
-      return [
-        [0, 0, 1, 0],
-        [0, 0, 1, 0],
-        [0, 0, 1, 0],
-        [0, 0, 1, 0],
-      ];
-    } else if (next2 === 2) {
-      return [
-        [0, 0, 0, 0],
-        [0, 2, 2, 0],
-        [0, 2, 2, 0],
-        [0, 0, 0, 0],
-      ];
-    } else if (next2 === 3) {
-      return [
-        [0, 0, 0, 0],
-        [0, 3, 3, 0],
-        [3, 3, 0, 0],
-        [0, 0, 0, 0],
-      ];
-    } else if (next2 === 4) {
-      return [
-        [0, 0, 0, 0],
-        [0, 4, 4, 0],
-        [0, 0, 4, 4],
-        [0, 0, 0, 0],
-      ];
-    } else if (next2 === 5) {
-      return [
-        [0, 0, 0, 0],
-        [0, 5, 0, 0],
-        [0, 5, 5, 5],
-        [0, 0, 0, 0],
-      ];
-    } else if (next2 === 6) {
-      return [
-        [0, 0, 0, 0],
-        [0, 0, 6, 0],
-        [6, 6, 6, 0],
-        [0, 0, 0, 0],
-      ];
-    } else if (next2 === 7) {
-      return [
-        [0, 0, 7, 0],
-        [0, 7, 7, 0],
-        [0, 0, 7, 0],
-        [0, 0, 0, 0],
-      ];
-    } else {
-      return [
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-      ];
-    }
-  };
-
-  const getNext3Num = () => {
-    if (next3 === 1) {
-      return [
-        [0, 0, 1, 0],
-        [0, 0, 1, 0],
-        [0, 0, 1, 0],
-        [0, 0, 1, 0],
-      ];
-    } else if (next3 === 2) {
-      return [
-        [0, 0, 0, 0],
-        [0, 2, 2, 0],
-        [0, 2, 2, 0],
-        [0, 0, 0, 0],
-      ];
-    } else if (next3 === 3) {
-      return [
-        [0, 0, 0, 0],
-        [0, 3, 3, 0],
-        [3, 3, 0, 0],
-        [0, 0, 0, 0],
-      ];
-    } else if (next3 === 4) {
-      return [
-        [0, 0, 0, 0],
-        [0, 4, 4, 0],
-        [0, 0, 4, 4],
-        [0, 0, 0, 0],
-      ];
-    } else if (next3 === 5) {
-      return [
-        [0, 0, 0, 0],
-        [0, 5, 0],
-        [0, 5, 5, 5],
-        [0, 0, 0, 0],
-      ];
-    } else if (next3 === 6) {
-      return [
-        [0, 0, 0, 0],
-        [0, 0, 6, 0],
-        [6, 6, 6, 0],
-        [0, 0, 0, 0],
-      ];
-    } else if (next3 === 7) {
-      return [
-        [0, 0, 7, 0],
-        [0, 7, 7, 0],
-        [0, 0, 7, 0],
-        [0, 0, 0, 0],
-      ];
-    } else {
-      return [
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-      ];
-    }
-  };
-  const hold = getHold();
-  const next1Num = getNext1Num();
-  const next2Num = getNext2Num();
-  const next3Num = getNext3Num();
+  const hold = getHoldNextArea(holdN);
+  const next1Num = getHoldNextArea(next1);
+  const next2Num = getHoldNextArea(next2);
+  const next3Num = getHoldNextArea(next3);
 
   return (
     <div className={styles.container}>
