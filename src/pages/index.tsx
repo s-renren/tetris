@@ -252,15 +252,26 @@ const Home = () => {
     return () => window.removeEventListener('keydown', arrowHandler);
   }, [moveLeft, moveRight, dropMino, holdMino]);
 
-  const clickReStart = () => {
+  const clickStart = () => {
     const newBlockN = Math.floor(Math.random() * 7) + 1;
     setNext1(Math.floor(Math.random() * 7) + 1);
     setNext2(Math.floor(Math.random() * 7) + 1);
     setNext3(Math.floor(Math.random() * 7) + 1);
+    setHoldN(0)
     setBoard([...Array(20)].map(() => [...Array(10)].map(() => 0)));
     appBlock(newBlockN, resetBoard);
     setNowBlockN(newBlockN);
   };
+
+  const clickReset = () => {
+    setBoard([...Array(20)].map(() => [...Array(10)].map(() => 0)))
+    setNext1(0)
+    setNext2(0)
+    setNext3(0)
+    setHoldN(0)
+    setNowBlockN(0)
+  }
+
 
   const getHoldNextArea = (num: number) => {
     if (num === 1) {
@@ -477,7 +488,8 @@ const Home = () => {
         </div>
       </div>
       <div className={styles.button}>
-        <button onClick={clickReStart}>restart</button>
+        <button onClick={clickStart}>Start</button>
+        <button onClick={clickReset}>Reset</button>
       </div>
     </div>
   );
