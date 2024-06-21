@@ -223,6 +223,7 @@ const Home = () => {
 
   const holdMino = useCallback(() => {
     const newBoard = structuredClone(board);
+    const changeHold = structuredClone(holdN);
     if (holdN === 0) {
       holdBoard(newBoard);
       setHoldN(nowBlockN);
@@ -231,6 +232,11 @@ const Home = () => {
       setNext1(next2);
       setNext2(next3);
       setNext3(Math.floor(Math.random() * 7) + 1);
+    } else {
+      holdBoard(newBoard);
+      setNowBlockN(changeHold);
+      setHoldN(nowBlockN);
+      appBlock(holdN, newBoard);
     }
   }, [holdN, nowBlockN, next1, next2, next3, holdBoard, appBlock, board]);
 
