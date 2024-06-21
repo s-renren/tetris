@@ -150,14 +150,16 @@ const Home = () => {
   // ブロックを出現させる
   const appBlock = useCallback(
     (num: number, newBoard: number[][]) => {
+      console.log(num, newBoard);
       const changes = changeMap[num.toString()];
 
       changes.forEach((change) => {
         newBoard[change.rowIndex][change.colIndex] = change.newvalue;
       });
       setBoard(newBoard);
+      console.log(board);
     },
-    [changeMap, setBoard],
+    [changeMap, setBoard, board],
   );
 
   // ミノを落とす
@@ -208,8 +210,7 @@ const Home = () => {
     }
   }, [isStart, dropMino]);
 
-  const holdBoard = useCallback(() => {
-    const newBoard = structuredClone(board);
+  const holdBoard = useCallback((newBoard: number[][]) => {
     newBoard.forEach((row, y) => {
       row.forEach((num, x) => {
         if (0 < num && num < 8) {
@@ -218,17 +219,18 @@ const Home = () => {
       });
     });
     setBoard(newBoard);
-  }, [board]);
+  }, []);
 
   const holdMino = useCallback(() => {
+    const newBoard = structuredClone(board);
     if (holdN === 0) {
+      holdBoard(newBoard);
       setHoldN(nowBlockN);
+      appBlock(next1, newBoard);
       setNowBlockN(next1);
       setNext1(next2);
       setNext2(next3);
       setNext3(Math.floor(Math.random() * 7) + 1);
-      appBlock(next1, board)
-      holdBoard();
     }
   }, [holdN, nowBlockN, next1, next2, next3, holdBoard, appBlock, board]);
 
@@ -285,16 +287,16 @@ const Home = () => {
       ];
     } else if (holdN === 5) {
       return [
+        [0, 0, 0, 0],
         [0, 5, 0, 0],
         [0, 5, 5, 5],
-        [0, 0, 0, 0],
         [0, 0, 0, 0],
       ];
     } else if (holdN === 6) {
       return [
+        [0, 0, 0, 0],
         [0, 0, 6, 0],
         [6, 6, 6, 0],
-        [0, 0, 0, 0],
         [0, 0, 0, 0],
       ];
     } else if (holdN === 7) {
@@ -345,16 +347,16 @@ const Home = () => {
       ];
     } else if (next1 === 5) {
       return [
+        [0, 0, 0, 0],
         [0, 5, 0, 0],
         [0, 5, 5, 5],
-        [0, 0, 0, 0],
         [0, 0, 0, 0],
       ];
     } else if (next1 === 6) {
       return [
+        [0, 0, 0, 0],
         [0, 0, 6, 0],
         [6, 6, 6, 0],
-        [0, 0, 0, 0],
         [0, 0, 0, 0],
       ];
     } else if (next1 === 7) {
@@ -405,16 +407,16 @@ const Home = () => {
       ];
     } else if (next2 === 5) {
       return [
+        [0, 0, 0, 0],
         [0, 5, 0, 0],
         [0, 5, 5, 5],
-        [0, 0, 0, 0],
         [0, 0, 0, 0],
       ];
     } else if (next2 === 6) {
       return [
+        [0, 0, 0, 0],
         [0, 0, 6, 0],
         [6, 6, 6, 0],
-        [0, 0, 0, 0],
         [0, 0, 0, 0],
       ];
     } else if (next2 === 7) {
@@ -465,16 +467,16 @@ const Home = () => {
       ];
     } else if (next3 === 5) {
       return [
-        [0, 5, 0, 0],
-        [0, 5, 5, 5],
         [0, 0, 0, 0],
+        [0, 5, 0],
+        [0, 5, 5, 5],
         [0, 0, 0, 0],
       ];
     } else if (next3 === 6) {
       return [
+        [0, 0, 0, 0],
         [0, 0, 6, 0],
         [6, 6, 6, 0],
-        [0, 0, 0, 0],
         [0, 0, 0, 0],
       ];
     } else if (next3 === 7) {
