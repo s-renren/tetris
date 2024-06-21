@@ -208,30 +208,41 @@ const Home = () => {
     }
   }, [isStart, dropMino]);
 
-  // const holdBoard = () => {
-  //   const newBoard = structuredClone(board)
-  // }
+  const holdBoard = useCallback(() => {
+    const newBoard = structuredClone(board);
+    newBoard.forEach((row, y) => {
+      row.forEach((num, x) => {
+        if (0 < num && num < 8) {
+          newBoard[y][x] = 0;
+        }
+      });
+    });
+    setBoard(newBoard);
+  }, [board]);
 
-  // const holdMino = () => {
-  //   if (holdN === 0) {
-  //     setHoldN(nowBlockN)
-  //     setNext1(next2);
-  //     setNext2(next3);
-  //     setNext3(Math.floor(Math.random() * 7) + 1);
-  //   }
-  // }
+  const holdMino = useCallback(() => {
+    if (holdN === 0) {
+      setHoldN(nowBlockN);
+      setNowBlockN(next1);
+      setNext1(next2);
+      setNext2(next3);
+      setNext3(Math.floor(Math.random() * 7) + 1);
+      appBlock(next1, board)
+      holdBoard();
+    }
+  }, [holdN, nowBlockN, next1, next2, next3, holdBoard, appBlock, board]);
 
   useEffect(() => {
     const arrowHandler = (event: KeyboardEvent) => {
       if (event.key === 'ArrowLeft') moveLeft();
       if (event.key === 'ArrowRight') moveRight();
       if (event.key === 'ArrowDown') dropMino();
-      // if (event.key === 'L')
+      if (event.key === 'l') holdMino();
     };
 
     window.addEventListener('keydown', arrowHandler);
     return () => window.removeEventListener('keydown', arrowHandler);
-  }, [moveLeft, moveRight, dropMino]);
+  }, [moveLeft, moveRight, dropMino, holdMino]);
 
   const clickReStart = () => {
     const newBlockN = Math.floor(Math.random() * 7) + 1;
