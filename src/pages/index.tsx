@@ -150,14 +150,16 @@ const Home = () => {
   // ブロックを出現させる
   const appBlock = useCallback(
     (num: number, newBoard: number[][]) => {
-      console.log(num, newBoard);
       const changes = changeMap[num.toString()];
-
-      changes.forEach((change) => {
-        newBoard[change.rowIndex][change.colIndex] = change.newvalue;
-      });
+      const canChange = changes.every((num) => board[num.rowIndex][num.colIndex] === 0);
+      if (canChange) {
+        changes.forEach((change) => {
+          newBoard[change.rowIndex][change.colIndex] = change.newvalue;
+        });
+      } else {
+        alert('Game Over');
+      }
       setBoard(newBoard);
-      console.log(board);
     },
     [changeMap, setBoard, board],
   );
@@ -257,21 +259,20 @@ const Home = () => {
     setNext1(Math.floor(Math.random() * 7) + 1);
     setNext2(Math.floor(Math.random() * 7) + 1);
     setNext3(Math.floor(Math.random() * 7) + 1);
-    setHoldN(0)
+    setHoldN(0);
     setBoard([...Array(20)].map(() => [...Array(10)].map(() => 0)));
     appBlock(newBlockN, resetBoard);
     setNowBlockN(newBlockN);
   };
 
   const clickReset = () => {
-    setBoard([...Array(20)].map(() => [...Array(10)].map(() => 0)))
-    setNext1(0)
-    setNext2(0)
-    setNext3(0)
-    setHoldN(0)
-    setNowBlockN(0)
-  }
-
+    setBoard([...Array(20)].map(() => [...Array(10)].map(() => 0)));
+    setNext1(0);
+    setNext2(0);
+    setNext3(0);
+    setHoldN(0);
+    setNowBlockN(0);
+  };
 
   const getHoldNextArea = (num: number) => {
     if (num === 1) {
