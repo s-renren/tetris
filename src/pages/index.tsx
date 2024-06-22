@@ -151,7 +151,7 @@ const Home = () => {
   const appBlock = useCallback(
     (num: number, newBoard: number[][]) => {
       const changes = changeMap[num.toString()];
-      const canChange = changes.every((num) => board[num.rowIndex][num.colIndex] === 0);
+      const canChange = changes.every((num) => newBoard[num.rowIndex][num.colIndex] === 0);
       if (canChange) {
         changes.forEach((change) => {
           newBoard[change.rowIndex][change.colIndex] = change.newvalue;
@@ -161,7 +161,7 @@ const Home = () => {
       }
       setBoard(newBoard);
     },
-    [changeMap, setBoard, board],
+    [changeMap, setBoard],
   );
 
   // ミノを落とす
@@ -238,6 +238,7 @@ const Home = () => {
       holdBoard(newBoard);
       setNowBlockN(changeHold);
       setHoldN(nowBlockN);
+      console.log(newBoard);
       appBlock(holdN, newBoard);
     }
   }, [holdN, nowBlockN, next1, next2, next3, holdBoard, appBlock, board]);
