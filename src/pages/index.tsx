@@ -164,6 +164,20 @@ const Home = () => {
     [changeMap, setBoard],
   );
 
+  const deleteLine = useCallback((newBoard: number[][]) => {
+    newBoard.forEach((row, index) => {
+      if (row.every((cell) => cell !== 0)) {
+        for (let y = index; y > 0; y--) {
+          for (let x = 0; x < 10; x++) {
+            newBoard[y][x] = newBoard[y-1][x];
+            newBoard[y-1][x] = 0;
+          }
+        }
+        console.log(newBoard);
+      }
+    });
+  }, []);
+
   // ミノを落とす
   const dropMino = useCallback(() => {
     const newBoard = structuredClone(board);
@@ -194,6 +208,7 @@ const Home = () => {
           }
         }),
       );
+      deleteLine(newBoard);
       appBlock(next1, newBoard);
       setNowBlockN(next1);
       setNext1(next2);
@@ -201,7 +216,7 @@ const Home = () => {
       setNext3(Math.floor(Math.random() * 7) + 1);
     }
     setBoard(newBoard);
-  }, [board, nowBlockN, next1, next2, next3, appBlock]);
+  }, [board, nowBlockN, next1, next2, next3, appBlock, deleteLine]);
 
   useEffect(() => {
     if (isStart) {
