@@ -11,13 +11,14 @@ const Home = () => {
   const [dropTime, setDropTime] = useState(0);
   const resetBoard = [...Array(20)].map(() => [...Array(10)].map(() => 0));
   const isStart = next1 !== 0;
+  let isGameOver = false;
   // みのの形
   const changeI = useMemo(
     () => [
+      { rowIndex: 0, colIndex: 2, newvalue: 1 },
+      { rowIndex: 0, colIndex: 3, newvalue: 1 },
       { rowIndex: 0, colIndex: 4, newvalue: 1 },
-      { rowIndex: 1, colIndex: 4, newvalue: 1 },
-      { rowIndex: 2, colIndex: 4, newvalue: 1 },
-      { rowIndex: 3, colIndex: 4, newvalue: 1 },
+      { rowIndex: 0, colIndex: 5, newvalue: 1 },
     ],
     [],
   );
@@ -176,7 +177,6 @@ const Home = () => {
             newBoard[y - 1][x] = 0;
           }
         }
-        console.log(newBoard);
       }
     });
   }, []);
@@ -235,23 +235,31 @@ const Home = () => {
   const holdMino = useCallback(() => {
     const newBoard = structuredClone(board);
     const changeHold = structuredClone(holdN);
-    if (holdN === 0) {
-      holdBoard(newBoard);
-      setHoldN(nowBlockN);
-      appBlock(next1, newBoard);
-      setNowBlockN(next1);
-      setNext1(next2);
-      setNext2(next3);
-      setNext3(Math.floor(Math.random() * 7) + 1);
-    } else {
-      holdBoard(newBoard);
-      setNowBlockN(changeHold);
-      setHoldN(nowBlockN);
-      console.log(newBoard);
-      appBlock(holdN, newBoard);
+    if (isStart) {
+      if (holdN === 0) {
+        holdBoard(newBoard);
+        setHoldN(nowBlockN);
+        appBlock(next1, newBoard);
+        setNowBlockN(next1);
+        setNext1(next2);
+        setNext2(next3);
+        setNext3(Math.floor(Math.random() * 7) + 1);
+      } else {
+        holdBoard(newBoard);
+        setNowBlockN(changeHold);
+        setHoldN(nowBlockN);
+        appBlock(holdN, newBoard);
+      }
     }
-  }, [holdN, nowBlockN, next1, next2, next3, holdBoard, appBlock, board]);
+  }, [holdN, nowBlockN, next1, next2, next3, holdBoard, appBlock, board, isStart, isGameOver]);
 
+  // const canMoveRight = board.every((row, y) => {
+  //   row.every((num, x) => {
+  //     if (num === nowBlockN) {
+  //       board[y][x + 1] = 0 || nowBlockN;
+  //     }
+  //   });
+  // });
   useEffect(() => {
     const interval = setInterval(() => {
       const nowTime = new Date().getTime();
@@ -276,18 +284,6 @@ const Home = () => {
       window.removeEventListener('keydown', arrowHandler);
     };
   }, [isStart, dropTime, dropMino, moveLeft, moveRight, holdMino]);
-
-  // useEffect(() => {
-  //   const arrowHandler = (event: KeyboardEvent) => {
-  //     if (event.key === 'ArrowLeft') moveLeft();
-  //     if (event.key === 'ArrowRight') moveRight();
-  //     if (event.key === 'ArrowDown') dropMino();
-  //     if (event.key === 'l') holdMino();
-  //   };
-
-  //   window.addEventListener('keydown', arrowHandler);
-  //   return () => window.removeEventListener('keydown', arrowHandler);
-  // }, [moveLeft, moveRight, dropMino, holdMino]);
 
   const clickStart = () => {
     const newBlockN = Math.floor(Math.random() * 7) + 1;
