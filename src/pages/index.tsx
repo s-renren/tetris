@@ -8,6 +8,7 @@ const Home = () => {
   const [next2, setNext2] = useState(0);
   const [next3, setNext3] = useState(0);
   const [holdN, setHoldN] = useState(0);
+  const [dropTime, setDropTime] = useState(0);
   const resetBoard = [...Array(20)].map(() => [...Array(10)].map(() => 0));
   const isStart = next1 !== 0;
   // みのの形
@@ -150,6 +151,7 @@ const Home = () => {
   // ブロックを出現させる
   const appBlock = useCallback(
     (num: number, newBoard: number[][]) => {
+      const nowTime = new Date().getTime();
       const changes = changeMap[num.toString()];
       const canChange = changes.every((num) => newBoard[num.rowIndex][num.colIndex] === 0);
       if (canChange) {
@@ -160,6 +162,7 @@ const Home = () => {
         alert('Game Over');
       }
       setBoard(newBoard);
+      setDropTime(nowTime);
     },
     [changeMap, setBoard],
   );
@@ -169,8 +172,8 @@ const Home = () => {
       if (row.every((cell) => cell !== 0)) {
         for (let y = index; y > 0; y--) {
           for (let x = 0; x < 10; x++) {
-            newBoard[y][x] = newBoard[y-1][x];
-            newBoard[y-1][x] = 0;
+            newBoard[y][x] = newBoard[y - 1][x];
+            newBoard[y - 1][x] = 0;
           }
         }
         console.log(newBoard);
@@ -218,15 +221,6 @@ const Home = () => {
     setBoard(newBoard);
   }, [board, nowBlockN, next1, next2, next3, appBlock, deleteLine]);
 
-  useEffect(() => {
-    if (isStart) {
-      const interval = setInterval(() => {
-        dropMino();
-      }, 1000);
-      return () => clearInterval(interval);
-    }
-  }, [isStart, dropMino]);
-
   const holdBoard = useCallback((newBoard: number[][]) => {
     newBoard.forEach((row, y) => {
       row.forEach((num, x) => {
@@ -259,6 +253,15 @@ const Home = () => {
   }, [holdN, nowBlockN, next1, next2, next3, holdBoard, appBlock, board]);
 
   useEffect(() => {
+    const interval = setInterval(() => {
+      const nowTime = new Date().getTime();
+
+      if (isStart && (nowTime - dropTime) / 1000 >= 1) {
+        dropMino();
+        setDropTime(nowTime);
+      }
+    }, 100);
+
     const arrowHandler = (event: KeyboardEvent) => {
       if (event.key === 'ArrowLeft') moveLeft();
       if (event.key === 'ArrowRight') moveRight();
@@ -267,8 +270,24 @@ const Home = () => {
     };
 
     window.addEventListener('keydown', arrowHandler);
-    return () => window.removeEventListener('keydown', arrowHandler);
-  }, [moveLeft, moveRight, dropMino, holdMino]);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('keydown', arrowHandler);
+    };
+  }, [isStart, dropTime, dropMino, moveLeft, moveRight, holdMino]);
+
+  // useEffect(() => {
+  //   const arrowHandler = (event: KeyboardEvent) => {
+  //     if (event.key === 'ArrowLeft') moveLeft();
+  //     if (event.key === 'ArrowRight') moveRight();
+  //     if (event.key === 'ArrowDown') dropMino();
+  //     if (event.key === 'l') holdMino();
+  //   };
+
+  //   window.addEventListener('keydown', arrowHandler);
+  //   return () => window.removeEventListener('keydown', arrowHandler);
+  // }, [moveLeft, moveRight, dropMino, holdMino]);
 
   const clickStart = () => {
     const newBlockN = Math.floor(Math.random() * 7) + 1;
@@ -366,19 +385,19 @@ const Home = () => {
                   className={
                     number === 0
                       ? styles.cell
-                      : number === 1 || number === 8
+                      : number === 1
                         ? styles.iMino
-                        : number === 2 || number === 9
+                        : number === 2
                           ? styles.oMino
-                          : number === 3 || number === 10
+                          : number === 3
                             ? styles.sMino
-                            : number === 4 || number === 11
+                            : number === 4
                               ? styles.zMino
-                              : number === 5 || number === 12
+                              : number === 5
                                 ? styles.jMino
-                                : number === 6 || number === 13
+                                : number === 6
                                   ? styles.lMino
-                                  : number === 7 || number === 14
+                                  : number === 7
                                     ? styles.tMino
                                     : ''
                   }
@@ -425,19 +444,19 @@ const Home = () => {
                   className={
                     number === 0
                       ? styles.cell
-                      : number === 1 || number === 8
+                      : number === 1
                         ? styles.iMino
-                        : number === 2 || number === 9
+                        : number === 2
                           ? styles.oMino
-                          : number === 3 || number === 10
+                          : number === 3
                             ? styles.sMino
-                            : number === 4 || number === 11
+                            : number === 4
                               ? styles.zMino
-                              : number === 5 || number === 12
+                              : number === 5
                                 ? styles.jMino
-                                : number === 6 || number === 13
+                                : number === 6
                                   ? styles.lMino
-                                  : number === 7 || number === 14
+                                  : number === 7
                                     ? styles.tMino
                                     : ''
                   }
@@ -453,19 +472,19 @@ const Home = () => {
                   className={
                     number === 0
                       ? styles.cell
-                      : number === 1 || number === 8
+                      : number === 1
                         ? styles.iMino
-                        : number === 2 || number === 9
+                        : number === 2
                           ? styles.oMino
-                          : number === 3 || number === 10
+                          : number === 3
                             ? styles.sMino
-                            : number === 4 || number === 11
+                            : number === 4
                               ? styles.zMino
-                              : number === 5 || number === 12
+                              : number === 5
                                 ? styles.jMino
-                                : number === 6 || number === 13
+                                : number === 6
                                   ? styles.lMino
-                                  : number === 7 || number === 14
+                                  : number === 7
                                     ? styles.tMino
                                     : ''
                   }
@@ -481,19 +500,19 @@ const Home = () => {
                   className={
                     number === 0
                       ? styles.cell
-                      : number === 1 || number === 8
+                      : number === 1
                         ? styles.iMino
-                        : number === 2 || number === 9
+                        : number === 2
                           ? styles.oMino
-                          : number === 3 || number === 10
+                          : number === 3
                             ? styles.sMino
-                            : number === 4 || number === 11
+                            : number === 4
                               ? styles.zMino
-                              : number === 5 || number === 12
+                              : number === 5
                                 ? styles.jMino
-                                : number === 6 || number === 13
+                                : number === 6
                                   ? styles.lMino
-                                  : number === 7 || number === 14
+                                  : number === 7
                                     ? styles.tMino
                                     : ''
                   }
