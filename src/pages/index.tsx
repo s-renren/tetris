@@ -11,7 +11,6 @@ const Home = () => {
   const [dropTime, setDropTime] = useState(0);
   const resetBoard = [...Array(20)].map(() => [...Array(10)].map(() => 0));
   const isStart = next1 !== 0;
-  let isGameOver = false;
   // みのの形
   const changeI = useMemo(
     () => [
@@ -154,18 +153,26 @@ const Home = () => {
     (num: number, newBoard: number[][]) => {
       const nowTime = new Date().getTime();
       const changes = changeMap[num.toString()];
-      const canChange = changes.every((num) => newBoard[num.rowIndex][num.colIndex] === 0);
-      if (canChange) {
-        changes.forEach((change) => {
-          newBoard[change.rowIndex][change.colIndex] = change.newvalue;
-        });
+      if (isStart) {
+        const canChange = changes.every((num) => newBoard[num.rowIndex][num.colIndex] === 0);
+        if (canChange) {
+          changes.forEach((change) => {
+            newBoard[change.rowIndex][change.colIndex] = change.newvalue;
+          });
+        } else {
+          alert('Game Over');
+        }
       } else {
-        alert('Game Over');
+        if (num !== 0) {
+          changes.forEach((change) => {
+            newBoard[change.rowIndex][change.colIndex] = change.newvalue;
+          });
+        }
       }
       setBoard(newBoard);
       setDropTime(nowTime);
     },
-    [changeMap, setBoard],
+    [changeMap, setBoard, isStart],
   );
 
   const deleteLine = useCallback((newBoard: number[][]) => {
@@ -183,43 +190,45 @@ const Home = () => {
 
   // ミノを落とす
   const dropMino = useCallback(() => {
-    const newBoard = structuredClone(board);
-    const canDrop = newBoard.every((row, y) =>
-      row.every((num, x) => {
-        if (num === nowBlockN) {
-          return newBoard[y + 1]?.[x] === 0 || newBoard[y + 1]?.[x] === nowBlockN;
-        }
-        return true;
-      }),
-    );
-    if (canDrop) {
-      board.forEach((row, y) =>
-        row.forEach((num, x) => {
+    if (isStart) {
+      const newBoard = structuredClone(board);
+      const canDrop = newBoard.every((row, y) =>
+        row.every((num, x) => {
           if (num === nowBlockN) {
-            newBoard[y + 1][x] = nowBlockN;
-            if (board[y - 1]?.[x] !== nowBlockN) {
-              newBoard[y][x] = 0;
+            return newBoard[y + 1]?.[x] === 0 || newBoard[y + 1]?.[x] === nowBlockN;
+          }
+          return true;
+        }),
+      );
+      if (canDrop) {
+        board.forEach((row, y) =>
+          row.forEach((num, x) => {
+            if (num === nowBlockN) {
+              newBoard[y + 1][x] = nowBlockN;
+              if (board[y - 1]?.[x] !== nowBlockN) {
+                newBoard[y][x] = 0;
+              }
             }
-          }
-        }),
-      );
-    } else {
-      newBoard.forEach((row, y) =>
-        row.forEach((num, x) => {
-          if (0 < num && num < 8) {
-            newBoard[y][x] = nowBlockN + 7;
-          }
-        }),
-      );
-      deleteLine(newBoard);
-      appBlock(next1, newBoard);
-      setNowBlockN(next1);
-      setNext1(next2);
-      setNext2(next3);
-      setNext3(Math.floor(Math.random() * 7) + 1);
+          }),
+        );
+      } else {
+        newBoard.forEach((row, y) =>
+          row.forEach((num, x) => {
+            if (0 < num && num < 8) {
+              newBoard[y][x] = nowBlockN + 7;
+            }
+          }),
+        );
+        deleteLine(newBoard);
+        appBlock(next1, newBoard);
+        setNowBlockN(next1);
+        setNext1(next2);
+        setNext2(next3);
+        setNext3(Math.floor(Math.random() * 7) + 1);
+      }
+      setBoard(newBoard);
     }
-    setBoard(newBoard);
-  }, [board, nowBlockN, next1, next2, next3, appBlock, deleteLine]);
+  }, [board, nowBlockN, next1, next2, next3, appBlock, deleteLine, isStart]);
 
   const holdBoard = useCallback((newBoard: number[][]) => {
     newBoard.forEach((row, y) => {
@@ -251,7 +260,7 @@ const Home = () => {
         appBlock(holdN, newBoard);
       }
     }
-  }, [holdN, nowBlockN, next1, next2, next3, holdBoard, appBlock, board, isStart, isGameOver]);
+  }, [holdN, nowBlockN, next1, next2, next3, holdBoard, appBlock, board, isStart]);
 
   // const canMoveRight = board.every((row, y) => {
   //   row.every((num, x) => {
