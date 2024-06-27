@@ -9,6 +9,7 @@ const Home = () => {
   const [next3, setNext3] = useState(0);
   const [holdN, setHoldN] = useState(0);
   const [dropTime, setDropTime] = useState(0);
+  const [rotateCount, setRotateCount] = useState(0);
   const resetBoard = [...Array(20)].map(() => [...Array(10)].map(() => 0));
   const isStart = next1 !== 0;
   // みのの形
@@ -230,7 +231,7 @@ const Home = () => {
     }
   }, [board, nowBlockN, next1, next2, next3, appBlock, deleteLine, isStart]);
 
-  const holdBoard = useCallback((newBoard: number[][]) => {
+  const clearNowBlockBoard = useCallback((newBoard: number[][]) => {
     newBoard.forEach((row, y) => {
       row.forEach((num, x) => {
         if (0 < num && num < 8) {
@@ -241,12 +242,47 @@ const Home = () => {
     setBoard(newBoard);
   }, []);
 
+  const selectMinoForm = useCallback(
+    (newBoard: number[][], x: number, y: number) => {
+      if (nowBlockN === 1) {
+        switch (rotateCount) {
+          case 0:
+            setRotateCount(1);
+            newBoard[y - 2][x] = nowBlockN;
+            newBoard[y - 1][x] = nowBlockN;
+            newBoard[y][x] = nowBlockN;
+            newBoard[y + 1][x] = nowBlockN;
+            break;
+        }
+      }
+      setBoard(newBoard);
+    },
+    [nowBlockN, rotateCount],
+  );
+
+  const rotateMino = useCallback(() => {
+    const newBoard = structuredClone(board);
+    let serchCount = 0;
+    for (let y = 0; y < 20; y++) {
+      for (let x = 0; x < 10; x++) {
+        if (newBoard[y][x] === nowBlockN) {
+          serchCount++;
+          if (serchCount === 3) {
+            // 回転の関数実行
+            clearNowBlockBoard(newBoard);
+            selectMinoForm(newBoard, x, y);
+          }
+        }
+      }
+    }
+  }, [nowBlockN, board, clearNowBlockBoard, selectMinoForm]);
+
   const holdMino = useCallback(() => {
     const newBoard = structuredClone(board);
     const changeHold = structuredClone(holdN);
     if (isStart) {
       if (holdN === 0) {
-        holdBoard(newBoard);
+        clearNowBlockBoard(newBoard);
         setHoldN(nowBlockN);
         appBlock(next1, newBoard);
         setNowBlockN(next1);
@@ -254,21 +290,13 @@ const Home = () => {
         setNext2(next3);
         setNext3(Math.floor(Math.random() * 7) + 1);
       } else {
-        holdBoard(newBoard);
+        clearNowBlockBoard(newBoard);
         setNowBlockN(changeHold);
         setHoldN(nowBlockN);
         appBlock(holdN, newBoard);
       }
     }
-  }, [holdN, nowBlockN, next1, next2, next3, holdBoard, appBlock, board, isStart]);
-
-  // const canMoveRight = board.every((row, y) => {
-  //   row.every((num, x) => {
-  //     if (num === nowBlockN) {
-  //       board[y][x + 1] = 0 || nowBlockN;
-  //     }
-  //   });
-  // });
+  }, [holdN, nowBlockN, next1, next2, next3, clearNowBlockBoard, appBlock, board, isStart]);
   useEffect(() => {
     const interval = setInterval(() => {
       const nowTime = new Date().getTime();
@@ -280,6 +308,7 @@ const Home = () => {
     }, 100);
 
     const arrowHandler = (event: KeyboardEvent) => {
+      if (event.key === 'ArrowUp') rotateMino();
       if (event.key === 'ArrowLeft') moveLeft();
       if (event.key === 'ArrowRight') moveRight();
       if (event.key === 'ArrowDown') dropMino();
@@ -292,7 +321,7 @@ const Home = () => {
       clearInterval(interval);
       window.removeEventListener('keydown', arrowHandler);
     };
-  }, [isStart, dropTime, dropMino, moveLeft, moveRight, holdMino]);
+  }, [isStart, dropTime, dropMino, moveLeft, moveRight, holdMino, rotateMino]);
 
   const clickStart = () => {
     const newBlockN = Math.floor(Math.random() * 7) + 1;
