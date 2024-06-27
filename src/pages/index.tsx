@@ -244,14 +244,49 @@ const Home = () => {
 
   const selectMinoForm = useCallback(
     (newBoard: number[][], x: number, y: number) => {
+      let setPlacey1 = 0;
+      let setPlacey2 = 0;
+      let setPlacey3 = 0;
+      let setPlacey4 = 0;
+      let setPlacex1 = 0;
+      let setPlacex2 = 0;
+      let setPlacex3 = 0;
+      let setPlacex4 = 0;
       if (nowBlockN === 1) {
         switch (rotateCount) {
           case 0:
             setRotateCount(1);
-            newBoard[y - 2][x] = nowBlockN;
-            newBoard[y - 1][x] = nowBlockN;
-            newBoard[y][x] = nowBlockN;
-            newBoard[y + 1][x] = nowBlockN;
+            if (y === 0) {
+              (setPlacex1 = x), (setPlacex2 = x), (setPlacex3 = x), (setPlacex4 = x);
+              (setPlacey1 = y), (setPlacey2 = y + 1), (setPlacey3 = y + 2), (setPlacey4 = y + 3);
+            } else if (y === 18 || y === 19) {
+              (setPlacex1 = x), (setPlacex2 = x), (setPlacex3 = x), (setPlacex4 = x);
+              (setPlacey1 = y - 3), (setPlacey2 = y - 2), (setPlacey3 = y - 1), (setPlacey4 = y);
+            } else {
+              (setPlacex1 = x), (setPlacex2 = x), (setPlacex3 = x), (setPlacex4 = x);
+              (setPlacey1 = y - 1), (setPlacey2 = y), (setPlacey3 = y + 1), (setPlacey4 = y + 2);
+            }
+            newBoard[setPlacey1][setPlacex1] = nowBlockN;
+            newBoard[setPlacey2][setPlacex2] = nowBlockN;
+            newBoard[setPlacey3][setPlacex3] = nowBlockN;
+            newBoard[setPlacey4][setPlacex4] = nowBlockN;
+            break;
+          case 1:
+            setRotateCount(0);
+            if (x === 0 || x === 1) {
+              (setPlacex1 = x), (setPlacex2 = x + 1), (setPlacex3 = x + 2), (setPlacex4 = x + 3);
+              (setPlacey1 = y), (setPlacey2 = y), (setPlacey3 = y), (setPlacey4 = y);
+            } else if (x === 8 || x === 9) {
+              (setPlacex1 = x - 3), (setPlacex2 = x - 2), (setPlacex3 = x - 1), (setPlacex4 = x);
+              (setPlacey1 = y), (setPlacey2 = y), (setPlacey3 = y), (setPlacey4 = y);
+            } else {
+              (setPlacex1 = x - 2), (setPlacex2 = x - 1), (setPlacex3 = x), (setPlacex4 = x + 1);
+              (setPlacey1 = y), (setPlacey2 = y), (setPlacey3 = y), (setPlacey4 = y);
+            }
+            newBoard[setPlacey1][setPlacex1] = nowBlockN;
+            newBoard[setPlacey2][setPlacex2] = nowBlockN;
+            newBoard[setPlacey3][setPlacex3] = nowBlockN;
+            newBoard[setPlacey4][setPlacex4] = nowBlockN;
             break;
         }
       }
@@ -289,11 +324,13 @@ const Home = () => {
         setNext1(next2);
         setNext2(next3);
         setNext3(Math.floor(Math.random() * 7) + 1);
+        setRotateCount(0);
       } else {
         clearNowBlockBoard(newBoard);
         setNowBlockN(changeHold);
         setHoldN(nowBlockN);
         appBlock(holdN, newBoard);
+        setRotateCount(0);
       }
     }
   }, [holdN, nowBlockN, next1, next2, next3, clearNowBlockBoard, appBlock, board, isStart]);
@@ -332,6 +369,7 @@ const Home = () => {
     setBoard([...Array(20)].map(() => [...Array(10)].map(() => 0)));
     appBlock(newBlockN, resetBoard);
     setNowBlockN(newBlockN);
+    setRotateCount(0);
   };
 
   const clickReset = () => {
@@ -341,6 +379,7 @@ const Home = () => {
     setNext3(0);
     setHoldN(0);
     setNowBlockN(0);
+    setRotateCount(0);
   };
 
   const getHoldNextArea = (num: number) => {
