@@ -281,12 +281,22 @@ const Home = () => {
             } else if (x === 8 || x === 9) {
               (setPlacex1 = x - 3), (setPlacex2 = x - 2), (setPlacex3 = x - 1), (setPlacex4 = x);
               (setPlacey1 = y), (setPlacey2 = y), (setPlacey3 = y), (setPlacey4 = y);
+            } else if (
+              (newBoard[y][x - 1] !== 0 || newBoard[y][x - 2] !== 0) &&
+              newBoard[y][x + 1] !== 0
+            ) {
+              (setPlacex1 = x), (setPlacex2 = x), (setPlacex3 = x), (setPlacex4 = x);
+              (setPlacey1 = y - 2), (setPlacey2 = y - 1), (setPlacey3 = y), (setPlacey4 = y + 1);
+              setRotateCount(1);
             } else {
               if (newBoard[y][x - 2] !== 0) {
                 (setPlacex1 = x - 1), (setPlacex2 = x), (setPlacex3 = x + 1), (setPlacex4 = x + 2);
                 (setPlacey1 = y), (setPlacey2 = y), (setPlacey3 = y), (setPlacey4 = y);
               } else if (newBoard[y][x - 1] !== 0) {
                 (setPlacex1 = x), (setPlacex2 = x + 1), (setPlacex3 = x + 2), (setPlacex4 = x + 3);
+                (setPlacey1 = y), (setPlacey2 = y), (setPlacey3 = y), (setPlacey4 = y);
+              } else if (newBoard[y][x + 1] !== 0) {
+                (setPlacex1 = x - 3), (setPlacex2 = x - 2), (setPlacex3 = x - 1), (setPlacex4 = x);
                 (setPlacey1 = y), (setPlacey2 = y), (setPlacey3 = y), (setPlacey4 = y);
               } else {
                 (setPlacex1 = x - 2), (setPlacex2 = x - 1), (setPlacex3 = x), (setPlacex4 = x + 1);
