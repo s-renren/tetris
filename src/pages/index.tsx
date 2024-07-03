@@ -254,6 +254,7 @@ const Home = () => {
       let setPlacex4 = 0;
       if (nowBlockN === 1) {
         switch (rotateCount) {
+          // 横向きの場合
           case 0:
             setRotateCount(1);
             if (y === 0) {
@@ -271,6 +272,7 @@ const Home = () => {
             newBoard[setPlacey3][setPlacex3] = nowBlockN;
             newBoard[setPlacey4][setPlacex4] = nowBlockN;
             break;
+          // 縦の時
           case 1:
             setRotateCount(0);
             if (x === 0 || x === 1) {
@@ -280,18 +282,18 @@ const Home = () => {
               (setPlacex1 = x - 3), (setPlacex2 = x - 2), (setPlacex3 = x - 1), (setPlacex4 = x);
               (setPlacey1 = y), (setPlacey2 = y), (setPlacey3 = y), (setPlacey4 = y);
             } else {
-              if (x - 2 !== 0) {
+              if (newBoard[y][x - 2] !== 0) {
                 (setPlacex1 = x - 1), (setPlacex2 = x), (setPlacex3 = x + 1), (setPlacex4 = x + 2);
                 (setPlacey1 = y), (setPlacey2 = y), (setPlacey3 = y), (setPlacey4 = y);
-              } else if (x - 1 !== 0) {
+              } else if (newBoard[y][x - 1] !== 0) {
                 (setPlacex1 = x), (setPlacex2 = x + 1), (setPlacex3 = x + 2), (setPlacex4 = x + 3);
                 (setPlacey1 = y), (setPlacey2 = y), (setPlacey3 = y), (setPlacey4 = y);
               } else {
                 (setPlacex1 = x - 2), (setPlacex2 = x - 1), (setPlacex3 = x), (setPlacex4 = x + 1);
                 (setPlacey1 = y), (setPlacey2 = y), (setPlacey3 = y), (setPlacey4 = y);
-                console.log('a')
               }
             }
+            console.log(setPlacex1);
             newBoard[setPlacey1][setPlacex1] = nowBlockN;
             newBoard[setPlacey2][setPlacex2] = nowBlockN;
             newBoard[setPlacey3][setPlacex3] = nowBlockN;
